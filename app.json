@@ -1,0 +1,22 @@
+{
+  "expo": {
+    "name": "Faizaa",
+    "slug": "faizaa",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "icon": "./icon.png",
+    "userInterfaceStyle": "dark",
+    "backgroundColor": "#050816",
+    "android": {
+      "package": "com.poojiyam.faizaa",
+      "versionCode": 1,
+      "softwareKeyboardLayoutMode": "resize",
+      "adaptiveIcon": {
+        "backgroundColor": "#050816",
+        "foregroundImage": "./android-icon-foreground.png",
+        "monochromeImage": "./android-icon-monochrome.png"
+      },
+      "predictiveBackGestureEnabled": false
+    }
+  }
+}
