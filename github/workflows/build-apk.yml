@@ -1,0 +1,56 @@
+name: Build Android APK
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+permissions:
+  contents: write
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: 17
+      - name: Install packages
+        run: npm ci
+      - name: Generate Android project
+        run: npx expo prebuild --platform android --no-install
+      - name: Build APK
+        shell: bash
+        run: |
+          cd android
+          chmod +x gradlew
+          set -o pipefail
+          ./gradlew assembleRelease --no-daemon 2>&1 | tee ../build.log
+      - name: Collect APK
+        run: cp android/app/build/outputs/apk/release/app-release.apk Faizaa.apk
+      - uses: actions/upload-artifact@v4
+        with:
+          name: faizaa-apk
+          path: Faizaa.apk
+      - name: Publish release
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: build-${{ github.run_number }}
+          name: Faizaa build ${{ github.run_number }}
+          files: Faizaa.apk
+      - name: Publish build status
+        if: always()
+        run: |
+          { echo "job status: ${{ job.status }}"; date -u; echo; tail -n 150 build.log 2>/dev/null || true; } > /tmp/status.txt
+          git config user.name ci
+          git config user.email ci@users.noreply.github.com
+          git checkout --orphan ci-status
+          git rm -rf . -q || true
+          cp /tmp/status.txt status.txt
+          git add status.txt
+          git commit -qm "build status"
+          git push -f origin ci-status
