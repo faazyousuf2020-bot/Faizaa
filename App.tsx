@@ -7,7 +7,7 @@ import { SafeAreaProvider, SafeAreaView } from 'react-native-safe-area-context';
 import { StatusBar } from 'expo-status-bar';
 import { File, Paths } from 'expo-file-system';
 import * as Sharing from 'expo-sharing';
-import * as Contacts from 'expo-contacts';
+import * as Contacts from 'expo-contacts/legacy';
 import { HTML } from './faizaaHtml';
 
 const BASE = 'https://faizaa.local/';
@@ -92,7 +92,7 @@ export default function App() {
       });
       reply(`window.__contacts(${JSON.stringify(list)})`);
     } catch (err) {
-      reply(`window.__contactsErr(${JSON.stringify('Could not read contacts.')})`);
+      reply(`window.__contactsErr(${JSON.stringify('Could not read contacts: ' + String((err as any)?.message || err))})`);
     }
   };
 
