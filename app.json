@@ -2,14 +2,14 @@
   "expo": {
     "name": "Faizaa",
     "slug": "faizaa",
-    "version": "1.0.0",
+    "version": "1.1.0",
     "orientation": "portrait",
     "icon": "./icon.png",
     "userInterfaceStyle": "dark",
     "backgroundColor": "#050816",
     "android": {
       "package": "com.poojiyam.faizaa",
-      "versionCode": 1,
+      "versionCode": 2,
       "softwareKeyboardLayoutMode": "resize",
       "adaptiveIcon": {
         "backgroundColor": "#050816",
@@ -17,6 +17,14 @@
         "monochromeImage": "./android-icon-monochrome.png"
       },
       "predictiveBackGestureEnabled": false
-    }
+    },
+    "plugins": [
+      [
+        "expo-contacts",
+        {
+          "contactsPermission": "Faizaa reads your contacts so you can review and import them one letter at a time."
+        }
+      ]
+    ]
   }
 }
